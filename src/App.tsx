@@ -1,17 +1,18 @@
 import { useState } from "react";
 
 import UserList from "./components/UserList";
+import AddUser from "./components/AddUser";
 
-type UserItem ={
+export type UserType ={
     userName: string,
     email: string,
     id: number
 }
 function App() {
-    const [users, setUsers] = useState<UserItem[]>([])
+    const [users, setUsers] = useState<UserType[]>([])
     function handleAddUser() {
         setUsers((prevUser) => {
-            const newUser: UserItem = {
+            const newUser: UserType = {
                 id: Math.random(),
                 userName: "User1",
                 email: "user1@.com",
@@ -20,24 +21,24 @@ function App() {
         }) 
     }
 
+
+    function handleDeleteUser(id: number){
+        setUsers((prevUsers) => {
+            return prevUsers.filter((item) => {
+                return item.id !== id
+            })
+        })
+    }
     return (
         <>
-            {/* <UserList UserName="User1" ><p>hello</p></UserList>
-            <UserList UserName="User2" ></UserList> */}
+            {/* <UserItem UserName="User1" ><p>hello</p></UserItem>
+            <UserItem UserName="User2" ></UserItem> */}
             
-                <div className="flex justify-center">
-                <button onClick={handleAddUser} className="px-4 py-2 mt-4 text-slate-100 bg-slate-500 rounded-md ">
-                Add User</button>
+                <div className="py-4 text-center">
+                <AddUser />
                 </div>
-                <div className="flex flex-col justify-center">    
-                {users.map((user) => (
-                    <div key={user.id}>
-                    <UserList  UserName={user.userName}>
-                        <p>{user.email}</p>
-                    </UserList>
-                    </div>
-                ))}
-                </div>
+                <UserList users={users} onDeleteUser={handleDeleteUser}/>
+          
         </>
     );
 }
