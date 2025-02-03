@@ -1,7 +1,8 @@
-
 import UserItem from "./UserItem"
+import Message from "./Message"
 
 import { type UserType } from "../App"
+import { type ReactNode } from "react"
 
 type UserListProps ={
     users: UserType[],
@@ -9,8 +10,19 @@ type UserListProps ={
 }
 
 function UserList({users, onDeleteUser}: UserListProps){
+    let messageText: ReactNode 
+    if(users.length === 0){
+        messageText = <Message mode="allowed"> We have no user </Message>
+
+    }
+
+    else if(users.length >= 2){
+        messageText = <Message mode="not-allowed"> We have too many users </Message>
+    }
     return(
-        <div className="flex flex-col justify-center">    
+        <>
+        {messageText}
+        <div className="flex  justify-center">    
         {users.map((user) => (
             <div key={user.id}>
             <UserItem userName={user.userName} onDelete={onDeleteUser} id={user.id}> 
@@ -19,6 +31,7 @@ function UserList({users, onDeleteUser}: UserListProps){
             </div>
         ))}
         </div>
+        </>
     
     )
 

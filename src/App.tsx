@@ -10,12 +10,12 @@ export type UserType ={
 }
 function App() {
     const [users, setUsers] = useState<UserType[]>([])
-    function handleAddUser() {
+    function handleAddUser(userName: string, email: string) {
         setUsers((prevUser) => {
             const newUser: UserType = {
                 id: Math.random(),
-                userName: "User1",
-                email: "user1@.com",
+                userName: userName,
+                email: email,
             }
             return [...prevUser, newUser]
         }) 
@@ -35,7 +35,7 @@ function App() {
             <UserItem UserName="User2" ></UserItem> */}
             
                 <div className="py-4 text-center">
-                <AddUser />
+                <AddUser onAddUser={handleAddUser}/>
                 </div>
                 <UserList users={users} onDeleteUser={handleDeleteUser}/>
           
